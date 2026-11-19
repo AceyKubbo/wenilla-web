@@ -83,7 +83,9 @@ downloads: a packaged build, a particular server's changes or anything 1.12.1 ne
 in a fork, and forks are welcome. GitHub lists
 [every public fork](https://github.com/samwhosung/benilla/forks).
 
-Not planned: other expansions or client versions, Warden (anticheat).
+Not planned: other expansions or client versions, Warden (anticheat). For Wrath of the Lich King
+(3.3.5a), [benilla-wotlk](https://github.com/Onixaz/benilla-wotlk) is a separate client built from
+benilla.
 
 ## Running it
 
@@ -118,7 +120,9 @@ does the same (`ln -s /path/to/WoW WoW`, or on Windows a junction, which needs n
 `localhost:3724`, the stock auth port. Point `WOW_HOST` at another (`WOW_HOST=play.example.com`, or
 `play.example.com:5000` for a remapped port), or set it from the Realmlist button on the login
 screen, which remembers it. Credentials go in at the login screen, or set `WOW_USER` and `WOW_PASS`
-to skip it.
+to skip it. A PIN-protected account answers the keypad from `WOW_PIN` (the digits) or
+`WOW_PIN_TOTP` (the authenticator's base32 secret), as
+[`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md), "Running it unattended", describes.
 
 Settings, screenshots and addons live in `benilla-config/` at the repo root: a 1.12 addon goes in
 `benilla-config/AddOns/`. [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) has the rest, from the
