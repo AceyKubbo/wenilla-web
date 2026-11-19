@@ -196,7 +196,8 @@ fn the_glue_vm_answers_the_glue_surface() {
 }
 
 /// Past its functions the glue globals hold the four library tables, the frame metatable
-/// `0x7039e0` publishes, and the compat chunk's `PI`.
+/// `0x7039e0` publishes, and the compat chunk's `PI`. `_G` is a wenilla carry: the glue VM answers
+/// it for UIs written past 1.12 (see `script::glue_compat`); 1.12 itself has no such global.
 #[test]
 fn the_glue_vm_holds_no_other_global() {
     let others: BTreeMap<String, String> = glue_globals()
@@ -205,6 +206,7 @@ fn the_glue_vm_holds_no_other_global() {
         .collect();
     let want: BTreeMap<String, String> = [
         ("PI", "number"),
+        ("_G", "table"),
         ("__framescript_meta", "table"),
         ("bit", "table"),
         ("math", "table"),

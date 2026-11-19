@@ -36,7 +36,7 @@ Each entry is the first sentence of a `Deviation:` comment, linking to where it 
 - [benilla-lua](#benilla-lua): 11
 - [benilla-protocol](#benilla-protocol): 29
 - [benilla-srp](#benilla-srp): 2
-- [benilla-ui](#benilla-ui): 135
+- [benilla-ui](#benilla-ui): 136
 - [benilla-world](#benilla-world): 47
 
 ### benilla-app
@@ -773,6 +773,7 @@ Each entry is the first sentence of a `Deviation:` comment, linking to where it 
 - The minutes come from the server's table, not from spell 15007's `Spell.dbc` duration, because the aura the server applies is what the dialog must warn about. ([`src/script/death.rs:45`](../crates/benilla-ui/src/script/death.rs#L45))
 - The promotion's IME legs (`0x77d417`–`0x77d431`) and the IME writer's `or 6` (`0x77acde`, in `0x77ac60`) are not modelled because benilla has no IME composition. ([`src/script/editbox/flush.rs:28`](../crates/benilla-ui/src/script/editbox/flush.rs#L28))
 - The nameplate glow is shown but never drawn, because its additive rim reads as hard edge lines in our linear-blending pipeline; the lit plate brightens its bar instead. It stays a real shown ADD region, as `glow:IsShown()` is the mouseover signal 1.12 nameplate addons read. ([`src/script/extract.rs:223`](../crates/benilla-ui/src/script/extract.rs#L223))
+- `_G` is a global the reference glue state does not have. It is published in the glue VM only, so the in-game VM's 1.12 surface is untouched, and addons that feature-detect `_G` to branch on the client version can still do so in the world. Kept in the fork because the alternative is a broken realm list for any UI written past 1.12. ([`src/script/glue_compat.rs:11`](../crates/benilla-ui/src/script/glue_compat.rs#L11))
 - A host of 0x80 bytes or more is refused because the reference copies the host into a 0x80-byte buffer (`0x5abc7c`-`0x5abc9c`) and writes its terminator one byte past the end, and the cut host could end in a whitelisted suffix the real one does not; this takes the safe side. ([`src/script/glue_core.rs:433`](../crates/benilla-ui/src/script/glue_core.rs#L433))
 - Benilla keeps that decode and then encodes it again, every byte outside the URL characters `URL_SAFE` as `%XY` (a decoded `%` too), because the opener on some platforms is a shell script (`xdg-open`) or takes the raw command tail (`rundll32`) and the string comes off the wire: no space, quote, backtick, `$`, `;`, `<`, `>`, `|`, `^`, `\`, brace or control byte reaches it. The result must be an `http://` or `https://` (case-folded) address with a host, and nothing else; the reference would open whatever the server sent, `file:` and program paths included. ([`src/script/glue_core.rs:478`](../crates/benilla-ui/src/script/glue_core.rs#L478))
 - Past `NAME_TRIES` names the answer is nil, where the reference keeps trying, forever when the generator has learned nothing. ([`src/script/glue_create.rs:970`](../crates/benilla-ui/src/script/glue_create.rs#L970))

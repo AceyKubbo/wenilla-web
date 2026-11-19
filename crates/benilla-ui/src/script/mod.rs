@@ -85,6 +85,8 @@ pub mod origin;
 mod roster_read;
 pub use char_name::{check_char_name, NameCharsets, NameLists, NoNameLists, CHAR_NAME_SUCCESS};
 mod glue;
+// wenilla carry: `_G` for non-stock GlueXML, glue VM only (see the module).
+mod glue_compat;
 mod glue_addons;
 mod glue_core;
 mod glue_create;
@@ -875,6 +877,8 @@ impl UiScript {
     pub fn new_glue() -> mlua::Result<UiScript> {
         let lua = install_framescript(VmKind::Glue)?;
         glue::install(&lua)?;
+        // wenilla carry: the glue VM answers `_G` for UIs written past 1.12; the world's does not.
+        glue_compat::install(&lua)?;
         object::guard_receivers(&lua)?;
         let script = Self::host(lua);
         // The glue build's `CSimpleTop::SetCursor` with the cursor texture (`0x46a872` →
